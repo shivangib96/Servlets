@@ -860,3 +860,204 @@ public class User extends HttpServlet {
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="AddEmp1">
+Employee number:<input type="text" name="empno" ><br>
+Employee name:<input type="text" name="ename" ><br>
+Job=<input type="text" name="job"><br>
+		Manager=<input type="text" name="mgr"><br>
+		HireDate=<input type="date" name="hirdate"><br>
+		Salary=<input type="text" name="sal"><br>
+		CommNo=<input type="text" name="comm"><br> 
+		DeptNo=<input type="text" name="deptno"><br>
+		<input type="submit">
+	</form>
+</body>
+</html>
+
+
+
+
+
+
+
+package pack;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.deloitte.empl.beans.Emp;
+import com.deloitte.empl.dao.EmpDao;
+import com.deloitte.empl.dao.impl.EmpDaoImpl;
+
+/**
+ * Servlet implementation class AddEmp1
+ */
+@WebServlet("/AddEmp1")
+public class AddEmp1 extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out=response.getWriter();
+		int empno = Integer.parseInt(request.getParameter("empno"));
+		String ename = request.getParameter("ename");
+		String job = request.getParameter("job");
+		int manager = Integer.parseInt(request.getParameter("mgr"));
+		String hiredate = request.getParameter("hirdate");
+		double salary = Double.parseDouble(request.getParameter("sal"));	
+		double comm = Double.parseDouble(request.getParameter("comm"));
+		int deptno = Integer.parseInt(request.getParameter("deptno"));
+		
+		Emp emp = new Emp(empno,ename,job,manager,hiredate,salary,comm,deptno);
+		EmpDao dao =new EmpDaoImpl();
+		int rows= dao.addEmp(emp);
+		out.println(rows);
+		
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+}
+
+
+
+
+
+
+package com.deloitte.empl.dao.impl;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.deloitte.empl.beans.Emp;
+import com.deloitte.empl.dao.EmpDao;
+import com.deloitte.empl.utils.ConvertDate;
+import com.deloitte.empl.utils.EmpUtils;
+
+import oracle.jdbc.OracleDriver;
+
+public class EmpDaoImpl implements EmpDao{
+	private Connection conn=null;
+	private PreparedStatement pst;
+	private ResultSet rs;
+	@Override
+	public void openConnection() {
+		try {
+			DriverManager.registerDriver(new OracleDriver());
+			String url ="jdbc:oracle:thin:@localhost:1521:orcl";
+			String user = "scott";
+			String pass = "tiger";
+			conn = DriverManager.getConnection(url, user, pass);
+		} catch (SQLException e) {
+		e.printStackTrace();
+		}
+	}
+	@Override
+	public void close() {
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public int addEmp(Emp emp) {
+		openConnection();
+		int rows=0;
+		try {
+			pst = conn.prepareStatement(EmpUtils.insertqry);
+			pst.setInt(1, emp.getEmpno());
+			pst.setString(2, emp.getEname());
+			pst.setString(3, emp.getJob());
+			pst.setInt(4, emp.getMgr());
+			pst.setDate(5, ConvertDate.parseDate(emp.getHiredate()));
+			pst.setDouble(6, emp.getSal());
+			pst.setDouble(7, emp.getComm());
+			pst.setInt(8, emp.getDeptno());
+			rows= pst.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally{
+			close();
+		}
+		return rows;
+	}
+	@Override
+	public List<Emp> getEmpls() {
+		openConnection();
+		List<Emp> emplist = new ArrayList<Emp>();
+		try {
+			pst = conn.prepareStatement(EmpUtils.GETEMPLS);
+			rs = pst.executeQuery();
+			while(rs.next()){
+				Emp emp = new Emp(rs.getInt(1), rs.getString(2),
+					rs.getString(3), rs.getInt(4),rs.getDate(5).toString(), rs.getDouble(6), 
+					rs.getDouble(7), rs.getInt(8));
+				emplist.add(emp);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		close();
+		return emplist;
+	}
+	@Override
+	public Emp getEmpByCode(int empcode) {
+		openConnection();
+		Emp emp = null;
+		try {
+			pst = conn.prepareStatement(EmpUtils.GETEMPlBYCODE);
+			pst.setInt(1, empcode); 
+			rs = pst.executeQuery();
+			if(rs.next()){
+				emp = new Emp(rs.getInt(1), rs.getString(2),
+					rs.getString(3), rs.getInt(4),rs.getDate(5).toString(), rs.getDouble(6), 
+					rs.getDouble(7), rs.getInt(8));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		close();
+		return emp;
+	}
+
+}
