@@ -1,0 +1,862 @@
+package JW;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class ClassOne
+ */
+public class ClassOne extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ClassOne() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	System.out.println("Hello");
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package webservlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class LifeCycles
+ */
+@WebServlet("/LifeCycles")
+public class LifeCycles extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private int count=0;
+
+	/**
+	 * @see Servlet#init(ServletConfig)
+	 */
+	public void init(ServletConfig config) throws ServletException {
+		System.out.println("**init method executed**");
+		
+	}
+
+	/**
+	 * @see Servlet#destroy()
+	 */
+	public void destroy() {
+		System.out.println("**destroy method executed**");
+
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out=response.getWriter();
+		out.println("<h2>"+count++);
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+}
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+
+<form action="EmployDetails" method="get">
+Enter name<input type="text" name="EmployeeName"><br>
+email-id<input type="text" name="Email"><br>
+date of joining<input type="date" name="DateOfJoining"><br>
+Job<input type="radio" name="job"value="Developer">Developer
+<input type="radio" name="job"value="Tester">Tester
+<input type="radio" name="job"value="Scrum Master">Scrum Master<br>
+Salary<input type="text" name="Salary"><br>
+<input type="submit">
+
+</form>
+</body>
+</html>
+
+
+
+package emp;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class EmployDetails
+ */
+@WebServlet("/EmployDetails")
+public class EmployDetails extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		PrintWriter out=response.getWriter();
+		String name=request.getParameter("EmployeeName");
+		String email=request.getParameter("Email");
+		String doj=request.getParameter("DateOfJoining");
+		String job=request.getParameter("job");
+		int sal=Integer.parseInt(request.getParameter("Salary"));
+		out.println("Employee name="+ name+"<br>");
+		out.println("Employee email="+ email+"<br>");
+		out.println("Date Of Joining "+doj+"<br>");
+		out.println("Job Profile "+job+"<br>");
+		out.println("Salary is"+sal+"<br>");
+		
+		
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+
+<form action="Samplerequired" method="get">
+Enter name<input type="text" name="empname"><br>
+Salary<input type="text" name="sal"><br>
+<input type="submit">
+
+
+</form>
+</body>
+</html>
+
+package webserv;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class Samplerequired
+ */
+@WebServlet("/Samplerequired")
+public class Samplerequired extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+PrintWriter out=response.getWriter();
+String name=request.getParameter("empname");
+int sal=Integer.parseInt(request.getParameter("sal"));
+out.println("Employee name="+ name+"<br>");
+out.println("Salary is "+sal);
+//response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="Samplerequ" method="get">
+Enter name<input type="text"name="empname"><br>
+Salary <input type="text" name="sal"><br>
+Select skills<input type="checkbox" name="skills" value="java">java
+<input type="checkbox" name="skills" value="spring">spring
+<input type="checkbox" name="skills" value="oracle">oracle
+<input type="submit">
+
+
+</form>
+</body>
+</html>
+
+
+package two;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class Samplerequ
+ */
+@WebServlet("/Samplerequ")
+public class Samplerequ extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+PrintWriter out=response.getWriter();
+out.println(request.getRequestURI()+"<br>");
+out.println(request.getLocalPort()+"<br>");
+out.println(request.getServerName()+"<br>");
+out.println(request.getContentType()+"<br>");
+out.println(request.getServletPath()+"<br>");
+out.println(request.getRemoteAddr()+"<br>");
+out.println(request.getRequestURL()+"<br>");
+out.println(request.getContextPath()+"<br>");
+out.println(request.getRemoteUser()+"<br>");
+out.println(request.getLocale()+"<br>");
+out.println(request.isAsyncSupported()+"<br>");
+out.println(response.isCommitted()+"<br>");
+out.println(response+"<br>");
+//response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+package cookieExample;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class Example
+ */
+@WebServlet("/Example")
+public class Example extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out=response.getWriter();
+		Cookie ck1=new Cookie("name","deloitte");
+		Cookie ck2=new Cookie("mailid","abcd@gmail.com");
+		out.println("Cookies Created");
+		ck2.setMaxAge(24*60*60);
+		response.addCookie(ck1);
+		response.addCookie(ck2);
+
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+}
+
+
+
+package cookiess;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+/**
+ * Servlet implementation class ReadCookies
+ */
+@WebServlet("/ReadCookies")
+public class ReadCookies extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out=response.getWriter();
+		Cookie cks[]=request.getCookies();
+		for(int i=0;i<cks.length;i++)
+		{
+			out.println("Cookie name="+cks[i].getName());
+			out.println("Cookie value="+cks[i].getValue()+"<br>");
+		}
+		HttpSession session=request.getSession();
+		out.println(session.getAttribute("mobile"));
+				session.invalidate();
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+}
+
+
+package sessions;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+/**
+ * Servlet implementation class CreateSession
+ */
+@WebServlet("/CreateSession")
+public class CreateSession extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+ 	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out=response.getWriter();
+		HttpSession session=request.getSession();
+		session.setAttribute("mobile",123467);
+		out.println("session created");
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+}
+
+
+
+
+
+
+
+
+
+package cookieExample;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class Validate
+ */
+@WebServlet("/Validate")
+public class Validate extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out=response.getWriter();
+		String user=request.getParameter("user");
+		RequestDispatcher rd;
+		if(user.equals("admin"))
+			rd=request.getRequestDispatcher("Admin");
+		else
+			rd=request.getRequestDispatcher("User");
+		rd.include(request, response);
+		out.println("success");
+		
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+}
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="Validate">
+
+Enter name<input type="text" name="user"><br>
+<input type="submit">
+</form>
+
+</body>
+</html>
+
+
+package cookieExample;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class Admin
+ */
+@WebServlet("/Admin")
+public class Admin extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out=response.getWriter();
+	out.println("<h2>Welcome Administrator!!! </h2>");
+	
+	out.println("<a href=Form.html>Return to Form</a>");
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="Validate">
+
+Enter UserName<input type="text" name="username" ><br>
+password<input type="text" name="password" ><br>
+<input type="submit">
+</form>
+
+</body>
+</html>
+
+
+
+
+
+package cookieExample;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class Validate
+ */
+@WebServlet("/Validate")
+public class Validate extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out=response.getWriter();
+		String username=request.getParameter("username");
+		String password=request.getParameter("password");
+		RequestDispatcher rd ;
+		
+		if(username.isEmpty() || password.isEmpty())
+		{
+			out.println("<font color=red >username and password should not be empty</font>");
+			rd=request.getRequestDispatcher("Form.html");
+			rd.include(request, response);
+		}
+			else
+				if((username.equals("admin")) && (password.equals("admin")))
+			rd=request.getRequestDispatcher("Admin"); 
+		
+		else
+			rd=request.getRequestDispatcher("User");
+		
+	
+		//out.println("success");
+		
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+}
+
+
+
+
+
+package cookieExample;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class User
+ */
+@WebServlet("/User")
+public class User extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out=response.getWriter();
+		out.println("<h2>Welcome User!!!"+"<br>");
+		
+		out.println("<a href=Form.html>Return to Form</a>");
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+}
+
+
+
+
+
+package cookieExample;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class Admin
+ */
+@WebServlet("/Admin")
+public class Admin extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out=response.getWriter();
+	out.println("<h2>Welcome Administrator!!! </h2>");
+	
+	out.println("<a href=Form.html>Return to Form</a>");
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package cookieExample;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+/**
+ * Servlet implementation class Validate
+ */
+@WebServlet("/Validate")
+public class Validate extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session=request.getSession();
+
+		PrintWriter out=response.getWriter();
+		String username=request.getParameter("username");
+		String password=request.getParameter("password");
+		RequestDispatcher rd =null;
+		
+		if(username.isEmpty() || password.isEmpty())
+		{
+			out.println("<font color=red >username and password should not be empty</font>");
+			rd=request.getRequestDispatcher("Form.html");
+			
+		}
+			else
+				if((username.equals("admin")) && (password.equals("admin")))
+			rd=request.getRequestDispatcher("Admin"); 
+		
+		else
+			rd=request.getRequestDispatcher("User");
+		
+		rd.include(request, response);
+		//out.println("success");
+		
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+}
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title></title>
+</head>
+<body>
+<form action="Validate">
+
+Enter UserName<input type="text" name="username" ><br>
+password<input type="text" name="password" ><br>
+<input type="submit">
+</form>
+
+</body>
+</html>
+
+
+
+
+
+package cookieExample;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+/**
+ * Servlet implementation class Admin
+ */
+@WebServlet("/Admin")
+public class Admin extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session=request.getSession(false);
+		Object myName=(String)session.getAttribute("User");
+		RequestDispatcher rd=null;
+		if(myName=="admin")
+		{
+		PrintWriter out=response.getWriter();
+	out.println("<h2>Welcome Administrator!!! </h2>");
+	out.println("<a href=Form.html>Return to Form</a>");
+		}
+		else
+		{
+			PrintWriter out=response.getWriter();
+			out.println("<h2>Unauthorized user!!! </h2>");
+			rd = request.getRequestDispatcher("Form.html");
+			rd.include(request, response);
+		}
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+}
+
+
+
+
+package cookieExample;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class User
+ */
+@WebServlet("/User")
+public class User extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out=response.getWriter();
+		out.println("<h2>Welcome User!!!"+"<br>");
+		
+		out.println("<a href=Form.html>Return to Form</a>");
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+}
+
